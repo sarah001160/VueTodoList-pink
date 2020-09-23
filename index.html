@@ -1,0 +1,290 @@
+<!DOCTYPE html><!--加油,學習會痛苦,是因為我正在成長接觸新知-->
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"><!--BS4-->
+      <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.common.dev.js'></script>
+      <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/core.js'></script>
+	<title>Document</title>
+</head>
+<style>
+	body,html{
+		max-width:10000px;
+		min-height:100%;
+		color:white;
+		font-size:20px;
+		box-sizing:border-box;
+	}
+	ul,li{
+		list-style:none;
+	}
+
+	/*for :class的特效*/
+	.active{
+		background:rgba(255,255,255,0.9);
+		width:100%;
+		display:block;
+		border-bottom:5px solid red;
+	}
+	.fItalic{
+		font-style:italic;
+		color:pink;
+		text-decoration:line-through;
+	}
+/*-----------------------------*/
+	.container{
+		margin:0px;
+		min-width:100%;
+		background:#FF8888;
+		min-height:100vh;
+		padding:0 0 100px 0;
+	}
+	.writeMemo{
+		width:100%;
+		height:auto;
+		background:rgba(255,255,255,0.2);
+	}
+	.writeMemo>div{
+		padding-top:50px;
+		box-sizing:border-box;
+		width:80%;
+		margin:0 10%;
+	}
+	.writeMemo h2{
+		text-align:center;
+	}
+	.classifyTag{ 
+		margin-top:20px;
+	}
+	.classifyTag ul{/*全部,進行中,完成的標籤*/
+		width:80%;
+		margin:0 auto;
+		text-align:center;
+	}
+	.classifyTag ul li{
+		display:inline-block;
+		width:100px;
+		height:auto;
+		border-bottom:1px solid black;
+		text-align:center;
+	}
+	.classifyTag ul li a{
+		display:block;
+		width:100%;
+		height:100%;
+		text-decoration:none;
+		color:blue;
+	}
+	.memoList{
+		width:100%;
+	}
+	.memoList>div{
+		width:100%;
+	}
+	.writeMemo input{
+		height:50px;
+		width:80%;
+		padding-left:10px;
+		margin:10px 10%;
+		box-shadow:0px 0px 10px black;
+		border:0px ;
+	}
+	.itemMemo{
+		background:rgba(255,255,255,0.2);
+		margin:5px auto;
+		width:800px;
+		min-height:80px;
+		padding:10px 10px 10px 50px;
+		box-sizing: border-box;
+		overflow:hidden;
+		word-wrap:break-word;
+		word-break: normal;
+	}
+	.itemMemo>div div{
+		display:inline-block;
+		width:80%;
+	}
+	.itemMemo .itemNumber{
+		width:30px;
+		margin:0 10px;
+		display:inline-block;
+		height:100%;
+		background:red;
+	}
+	.itemMemo button{
+		margin-top:20px;
+		border:1px solid white;
+		background:white;
+		background:rgba(255,255,255,0.2);
+	}
+	.itemMemo  .cboxStyle{
+		width:22px;
+		height:22px;
+	}
+	.memoList .editingInput{
+		width:600px;
+		height:50px;
+		border:none;
+		margin-top:20px;
+	}
+
+
+/*------當瀏覽器在992px以下時----*/
+@media(max-width:992px){
+		.classifyTag ul{
+			margin:20px auto;
+			max-width:400px;
+		}
+		.writeMemo input{
+			width:80%;
+			height:50px;
+			margin:0 10%;
+		}
+		.itemMemo{
+			width:90%;
+			padding:10px;
+			margin:10px auto;
+		}
+		.itemMemo>div div{
+			width:80%;
+		}
+		.itemMemo button{
+		/*還沒想好如何設置*/
+		}
+	}
+
+
+
+</style>
+<body>
+	<div id="app" class="container">
+		<div class="writeMemo">
+			<div>
+				<h2>記事本</h2>
+				<br>
+				<input type="text" v-model="newTodo" @keyup.enter="addTodo">
+			</div>
+		</div>
+		<div class="classifyTag">
+			<ul>
+				<li :class="{'active':visibility=='all'}"><a href="#" @click="visibility='all'" >All</a></li>
+				<li :class="{'active':visibility=='active'}"><a href="#" @click="visibility='active'">Active</a></li>
+				<li :class="{'active':visibility=='done'}"><a href="#" @click="visibility='done'">Done</a></li>
+			</ul>
+		</div>
+		<div class="memoList">
+			<div>
+				<li class="itemMemo" v-for="(item,key) in filteredTodos" :key="item">
+					<div v-if="item.id!==cacheTodo.id">
+						<div>
+							<input type="checkbox" v-model="item.completed" 
+						  	:id="item.id" @change="updateLocalstorage" class="cboxStyle">
+							<label :for="item.id" :class=" {'fItalic':item.completed}">{{item.title}}
+							</label>
+						</div>
+						<button type="button" class="bg-primary" 
+						   @click="editTodo(item)">edit
+						</button>
+						<button type="button" class="bg-danger" @click="deleteTodo(item)">X
+						</button>
+						
+					</div>
+					<input class="editingInput" type="text" v-model="cacheTitle" v-if="item.id===cacheTodo.id" @keyup.enter="doneTodo(item)" @keyup.esc="cancelTodo">
+					
+				</li>
+
+			</div>
+		</div>	
+
+	</div>
+	<script>
+		var app = new Vue({
+			el:'#app',
+			data:{
+				newTodo:'',//存入輸入的資料
+				test:'123',
+				cacheTodo:{},
+				cacheTitle:'',
+				todos:JSON.parse(localStorage.getItem('todos'))||[],//存todos陣列
+				visibility:'all',
+			},
+			methods:{
+				addTodo:function(){
+					var value = this.newTodo.trim();
+					var timestamp = Math.floor(Date.now()/1000);
+					if(!value){return};
+					var txt={
+						id:timestamp,
+						title:value,
+						completed:false,
+					}
+					//this.todos.unshift(txt) add to array at beginning
+					this.todos.push(txt)
+					this.newTodo="";
+					console.log(this.todos)
+				   localStorage.setItem('todos',JSON.stringify(this.todos));
+				},
+				editTodo:function(item){
+					console.log(item);
+					this.cacheTodo=item;
+					this.cacheTitle=item.title;
+					saveTodo();
+
+				},
+				doneTodo:function(item){
+					item.title=this.cacheTitle;
+					this.cacheTitle="";//清除
+					this.cacheTodo={};//清除
+					localStorage.setItem('todos',JSON.stringify(this.todos));
+				},
+				cancelTodo(item){
+					this.cacheTodo={};
+					this.cacheTitle='';
+				},
+				deleteTodo(todo){
+					var vm = this;
+ 					var newIndex = vm.todos.findIndex(function(item,key){
+ 						return todo.id===item.id
+ 					})
+					this.todos.splice(newIndex,1);
+					localStorage.setItem('todos',JSON.stringify(this.todos))
+				},
+				updateLocalstorage(){
+					localStorage.setItem('todos',JSON.stringify(this.todos));
+				},
+			},
+			computed:{
+				filteredTodos:function(){
+					if(this.visibility=='all'){
+						return this.todos
+					}else if(this.visibility=='active'){
+						var newTodos=[];
+						this.todos.forEach(function(item){
+							if(!item.completed){
+								newTodos.push(item);
+							}
+						})
+						return newTodos;
+					}else if(this.visibility=='done'){
+						var newTodos=[];
+						this.todos.forEach(function(item){
+							if(item.completed){
+								newTodos.push(item);
+							}
+						})
+						return newTodos;
+					}
+					return [];
+				}
+
+			},
+			
+
+			
+		
+		})
+	</script>
+</body>
+</html>
