@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Document</title>
+      <title>記事本</title>
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"><!--BS4-->
       <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.common.dev.js'></script>
       <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/core.js'></script>
@@ -155,7 +155,26 @@
 		}
 	}
 
-
+/*----寬度在440px以下--------*/
+@media(max-width:440px){
+	.writeMemo input{
+		width:100%;
+		margin:0 auto;
+	}
+	.classifyTag{
+		width:100%;
+		padding:0;
+	}
+	.classifyTag ul{
+			margin:0 auto;
+			max-width:100%;
+		}
+		.classifyTag ul li{
+			display:block;
+			width:100%;
+			margin:10px 0px;
+		}
+}
 
 </style>
 <body>
