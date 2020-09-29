@@ -21,14 +21,14 @@
 		list-style:none;
 	}
 
-	/*for :class的特效*/
+	/*用在:class的特效*/
 	.active{
-		background:rgba(255,255,255,0.9);
+		background:rgb(150,205,205,1);
 		width:100%;
 		display:block;
 		border-bottom:5px solid red;
 	}
-	.fItalic{
+	.fItalic{/*字體斜體*/
 		font-style:italic;
 		color:pink;
 		text-decoration:line-through;
@@ -37,14 +37,14 @@
 	.container{
 		margin:0px;
 		min-width:100%;
-		background:#FF8888;
 		min-height:100vh;
-		padding:0 0 100px 0;
+		padding:0;
 	}
 	.writeMemo{
 		width:100%;
 		height:auto;
 		background:rgba(255,255,255,0.2);
+		color:rgb(102,139,139);
 	}
 	.writeMemo>div{
 		padding-top:50px;
@@ -56,7 +56,8 @@
 		text-align:center;
 	}
 	.classifyTag{ 
-		margin-top:20px;
+		margin-top:10px;
+		background:rgb(83,134,139);
 	}
 	.classifyTag ul{/*全部,進行中,完成的標籤*/
 		width:80%;
@@ -73,15 +74,18 @@
 	.classifyTag ul li a{
 		display:block;
 		width:100%;
-		height:100%;
 		text-decoration:none;
 		color:blue;
 	}
 	.memoList{
 		width:100%;
+		min-height:100vh;
+		background:rgb(83,134,139);
+		margin:0;
 	}
 	.memoList>div{
 		width:100%;
+		padding-top:10px;
 	}
 	.writeMemo input{
 		height:50px;
@@ -101,6 +105,24 @@
 		overflow:hidden;
 		word-wrap:break-word;
 		word-break: normal;
+		position: relative;
+	}
+	.btnEdit{
+		position:absolute;
+		top:15px;
+		right:50px;
+		border:0.5px solid yellow;
+	}
+	.btnDelete{
+		position:absolute;
+		top:0;
+		right:0;
+		background:transparent;
+		border:none;
+
+	}
+	.btnDelete:hover{
+		background:red;
 	}
 	.itemMemo>div div{
 		display:inline-block;
@@ -113,12 +135,7 @@
 		height:100%;
 		background:red;
 	}
-	.itemMemo button{
-		margin-top:20px;
-		border:1px solid white;
-		background:white;
-		background:rgba(255,255,255,0.2);
-	}
+
 	.itemMemo  .cboxStyle{
 		width:22px;
 		height:22px;
@@ -131,11 +148,14 @@
 	}
 
 
-/*------當瀏覽器在992px以下時----*/
+/*------當瀏覽器寬度在992px以下時----*/
 @media(max-width:992px){
+		.classifyTag{
+
+		}
 		.classifyTag ul{
-			margin:20px auto;
-			max-width:400px;
+			margin:0 auto;
+			
 		}
 		.writeMemo input{
 			width:80%;
@@ -155,7 +175,7 @@
 		}
 	}
 
-/*----寬度在440px以下--------*/
+/*----當瀏覽器寬度在440px以下--------*/
 @media(max-width:440px){
 	.writeMemo input{
 		width:100%;
@@ -164,6 +184,7 @@
 	.classifyTag{
 		width:100%;
 		padding:0;
+		margin:0;
 	}
 	.classifyTag ul{
 			margin:0 auto;
@@ -173,8 +194,21 @@
 		.classifyTag ul li{
 			display:block;
 			width:100%;
-			margin:10px 0;
+			margin:5px 0;
 
+		}
+		.itemMemo{
+			position:relative;	
+		}
+		.btnEdit{
+			position:absolute;
+			top:0;
+			right:0;
+		}
+		.btnDelete{
+			position:absolute;
+			bottom:0;
+			right:0;
 		}
 }
 
@@ -205,10 +239,10 @@
 							<label :for="item.id" :class=" {'fItalic':item.completed}">{{item.title}}
 							</label>
 						</div>
-						<button type="button" class="bg-primary" 
+						<button type="button" class="btnEdit bg-primary" 
 						   @click="editTodo(item)">edit
 						</button>
-						<button type="button" class="bg-danger" @click="deleteTodo(item)">X
+						<button type="button" class="btnDelete" @click="deleteTodo(item)">X
 						</button>
 						
 					</div>
@@ -247,12 +281,10 @@
 					console.log(this.todos)
 				   localStorage.setItem('todos',JSON.stringify(this.todos));
 				},
-				editTodo:function(item){
+				editTodo(item){
 					console.log(item);
 					this.cacheTodo=item;
 					this.cacheTitle=item.title;
-					saveTodo();
-
 				},
 				doneTodo:function(item){
 					item.title=this.cacheTitle;
@@ -272,7 +304,7 @@
 					this.todos.splice(newIndex,1);
 					localStorage.setItem('todos',JSON.stringify(this.todos))
 				},
-				updateLocalstorage(){
+				saveLocal(){
 					localStorage.setItem('todos',JSON.stringify(this.todos));
 				},
 			},
@@ -298,7 +330,8 @@
 						return newTodos;
 					}
 					return [];
-				}
+				},
+				
 
 			},
 			
