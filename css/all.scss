@@ -112,15 +112,17 @@
 							label{
 								margin-left:20px;
 							}
-							.btnEdit{
-								border:none;
-								background:blue;
-							}
 						}
-						.editingInput{
-							width:90%;
-							height:50px;
+						.btnEdit{
+							border:none;
+							background:blue;
 						}
+	
+					}
+					.editingInput{
+						width:100%;
+						height:50px;
+						margin-top:20px;
 					}
 					
 				}
