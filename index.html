@@ -5,228 +5,30 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Document</title>
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"><!--BS4-->
+      <link rel="stylesheet" href="css/all.css">
       <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.common.dev.js'></script>
       <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/core.js'></script>
 	<title>Document</title>
 </head>
-<style>
-	body,html{
-		max-width:10000px;
-		min-height:100%;
-		color:white;
-		font-size:20px;
-		box-sizing:border-box;
-	}
-	ul,li{
-		list-style:none;
-	}
 
-	/*用在:class的特效*/
-	.active{
-		background:rgb(150,205,205,1);
-		width:100%;
-		display:block;
-		border-bottom:5px solid red;
-	}
-	.fItalic{/*字體斜體*/
-		font-style:italic;
-		color:pink;
-		text-decoration:line-through;
-	}
-/*-----------------------------*/
-	.container{
-		margin:0px;
-		min-width:100%;
-		min-height:100vh;
-		padding:0;
-	}
-	.writeMemo{
-		width:100%;
-		height:auto;
-		background:rgba(255,255,255,0.2);
-		color:rgb(102,139,139);
-	}
-	.writeMemo>div{
-		padding-top:50px;
-		box-sizing:border-box;
-		width:80%;
-		margin:0 10%;
-	}
-	.writeMemo h2{
-		text-align:center;
-	}
-	.classifyTag{ 
-		margin-top:10px;
-		background:rgb(83,134,139);
-	}
-	.classifyTag ul{/*全部,進行中,完成的標籤*/
-		width:80%;
-		margin:0 auto;
-		text-align:center;
-	}
-	.classifyTag ul li{
-		display:inline-block;
-		width:100px;
-		height:auto;
-		border-bottom:1px solid black;
-		text-align:center;
-	}
-	.classifyTag ul li a{
-		display:block;
-		width:100%;
-		text-decoration:none;
-		color:blue;
-	}
-	.memoList{
-		width:100%;
-		min-height:100vh;
-		background:rgb(83,134,139);
-		margin:0;
-	}
-	.memoList>div{
-		width:100%;
-		padding-top:10px;
-	}
-	.writeMemo input{
-		height:50px;
-		width:80%;
-		padding-left:10px;
-		margin:10px 10%;
-		box-shadow:0px 0px 10px black;
-		border:0px ;
-	}
-	.itemMemo{
-		background:rgba(255,255,255,0.2);
-		margin:5px auto;
-		width:800px;
-		min-height:80px;
-		padding:10px 10px 10px 50px;
-		box-sizing: border-box;
-		overflow:hidden;
-		word-wrap:break-word;
-		word-break: normal;
-		position: relative;
-	}
-	.btnEdit{
-		position:absolute;
-		top:15px;
-		right:50px;
-		border:0.5px solid yellow;
-	}
-	.btnDelete{
-		position:absolute;
-		top:0;
-		right:0;
-		background:transparent;
-		border:none;
-
-	}
-	.btnDelete:hover{
-		background:red;
-	}
-	.itemMemo>div div{
-		display:inline-block;
-		width:80%;
-	}
-	.itemMemo .itemNumber{
-		width:30px;
-		margin:0 10px;
-		display:inline-block;
-		height:100%;
-		background:red;
-	}
-
-	.itemMemo  .cboxStyle{
-		width:22px;
-		height:22px;
-	}
-	.memoList .editingInput{
-		width:600px;
-		height:50px;
-		border:none;
-		margin-top:20px;
-	}
-
-
-/*------當瀏覽器寬度在992px以下時----*/
-@media(max-width:992px){
-		.classifyTag{
-
-		}
-		.classifyTag ul{
-			margin:0 auto;
-			
-		}
-		.writeMemo input{
-			width:80%;
-			height:50px;
-			margin:0 10%;
-		}
-		.itemMemo{
-			width:90%;
-			padding:10px;
-			margin:10px auto;
-		}
-		.itemMemo>div div{
-			width:80%;
-		}
-		.itemMemo button{
-		/*還沒想好如何設置*/
-		}
-	}
-
-/*----當瀏覽器寬度在440px以下--------*/
-@media(max-width:440px){
-	.writeMemo input{
-		width:100%;
-		margin:0 auto;
-	}
-	.classifyTag{
-		width:100%;
-		padding:0;
-		margin:0;
-	}
-	.classifyTag ul{
-			margin:0 auto;
-			padding:0;
-			max-width:100%;
-		}
-		.classifyTag ul li{
-			display:block;
-			width:100%;
-			margin:5px 0;
-
-		}
-		.itemMemo{
-			position:relative;	
-		}
-		.btnEdit{
-			position:absolute;
-			top:0;
-			right:0;
-		}
-		.btnDelete{
-			position:absolute;
-			bottom:0;
-			right:0;
-		}
-}
-
-</style>
 <body>
 	<div id="app" class="container">
 		<div class="writeMemo">
 			<div>
-				<h2>記事本</h2>
+				<h2 class="h2">記事本</h2>
 				<br>
-				<input type="text" v-model="newTodo" @keyup.enter="addTodo">
+				<div class="inputWrap">
+					<input type="text" v-model="newTodo" @keyup.enter="addTodo">
+					<button @click="addTodo">+</button>
+				</div>
+				
 			</div>
 		</div>
 		<div class="classifyTag">
 			<ul>
-				<li :class="{'active':visibility=='all'}"><a href="#" @click="visibility='all'" >All</a></li>
-				<li :class="{'active':visibility=='active'}"><a href="#" @click="visibility='active'">Active</a></li>
-				<li :class="{'active':visibility=='done'}"><a href="#" @click="visibility='done'">Done</a></li>
+				<li ><a href="#" @click="visibility='all'" :class="{'active':visibility=='all'}">All</a></li>
+				<li ><a href="#" @click="visibility='active'" :class="{'active':visibility=='active'}">Active</a></li>
+				<li><a href="#" @click="visibility='done'"  :class="{'active':visibility=='done'}">Done</a></li>
 			</ul>
 		</div>
 		<div class="memoList">
@@ -235,14 +37,14 @@
 					<div v-if="item.id!==cacheTodo.id">
 						<div>
 							<input type="checkbox" v-model="item.completed" 
-						  	:id="item.id" @change="updateLocalstorage" class="cboxStyle">
+						  	:id="item.id" @change="updateLocalstorage" class="checkbox">
 							<label :for="item.id" :class=" {'fItalic':item.completed}">{{item.title}}
 							</label>
 						</div>
-						<button type="button" class="btnEdit bg-primary" 
+						<button type="button" class="btn-primary btnEdit bg-primary" 
 						   @click="editTodo(item)">edit
 						</button>
-						<button type="button" class="btnDelete" @click="deleteTodo(item)">X
+						<button type="button" class=" btn-danger btnDelete" @click="deleteTodo(item)">X
 						</button>
 						
 					</div>
@@ -331,7 +133,6 @@
 					}
 					return [];
 				},
-				
 
 			},
 			
