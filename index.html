@@ -3,12 +3,11 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Document</title>
+      <title>TodoList</title>
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"><!--BS4-->
       <link rel="stylesheet" href="css/all.css">
       <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.common.dev.js'></script>
       <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/core.js'></script>
-	<title>Document</title>
 </head>
 
 <body>
@@ -26,9 +25,9 @@
 		</div>
 		<div class="classifyTag">
 			<ul>
-				<li ><a href="#" @click="visibility='all'" :class="{'active':visibility=='all'}">All</a></li>
-				<li ><a href="#" @click="visibility='active'" :class="{'active':visibility=='active'}">Active</a></li>
-				<li><a href="#" @click="visibility='done'"  :class="{'active':visibility=='done'}">Done</a></li>
+				<li ><a href="#" @click="visibility='all'" :class="{'active':visibility=='all'}">全部事項</a></li>
+				<li ><a href="#" @click="visibility='active'" :class="{'active':visibility=='active'}">進行中</a></li>
+				<li><a href="#" @click="visibility='done'"  :class="{'active':visibility=='done'}">已完成</a></li>
 			</ul>
 		</div>
 		<div class="memoList">
@@ -48,7 +47,7 @@
 						</button>
 						
 					</div>
-					<input class="editingInput" type="text" v-model="cacheTitle" v-if="item.id===cacheTodo.id" @keyup.enter="doneTodo(item)" @keyup.esc="cancelTodo">
+					<input class="editingInput form" type="text" v-model="cacheTitle" v-if="item.id===cacheTodo.id" @keyup.enter="doneTodo(item)" @keyup.esc="cancelTodo">
 					
 				</li>
 

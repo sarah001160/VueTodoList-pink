@@ -58,7 +58,9 @@ body, html {
 
 /*用在:class的特效*/
 .active {
-  background-color: rgba(0, 12, 255, 0.7);
+  background: yellow;
+  -webkit-box-shadow: 0 0 10px yellow, 0 0 50px yellow, 0 0 100px yellow, 0 0 200px yellow;
+  box-shadow: 0 0 10px yellow, 0 0 50px yellow, 0 0 100px yellow, 0 0 200px yellow;
   width: 100%;
   display: block; }
 
@@ -84,7 +86,8 @@ body, html {
       margin: 0;
       padding: 20px 0; }
       .container .writeMemo div h2 {
-        text-align: center; }
+        text-align: center;
+        letter-spacing: 10px; }
       .container .writeMemo div .inputWrap {
         width: 100%;
         height: auto;
@@ -120,7 +123,10 @@ body, html {
         .container .classifyTag ul li a {
           text-decoration: none;
           display: block;
-          color: white; }
+          color: #fff; }
+        .container .classifyTag ul li a.active {
+          /*當套用active後的a連結必須是黑色*/
+          color: #000; }
   .container .memoList {
     min-height: 100vh;
     padding-bottom: 50px;
